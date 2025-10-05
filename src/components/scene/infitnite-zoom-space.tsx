@@ -29,8 +29,8 @@ export function ZoomedParticles() {
 
   useFrame((state, delta) => {
     stars.current.forEach((star, i) => {
-      const speed = 0.01 + (i % 10) * 0.001;
-      star.position[2] += speed * delta * 60;
+      const speed = 0.01 + (i % 10) * 0.02;
+      star.position[2] += speed * delta * 100;
       if (star.position[2] > 0) {
         star.position[0] = (Math.random() - 0.5) * 100;
         star.position[1] = (Math.random() - 0.5) * 100;
@@ -60,7 +60,7 @@ export function ZoomedParticles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.01}
+        size={0.08}
         color="#ffffff"
         transparent
         opacity={0.8}
