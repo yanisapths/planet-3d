@@ -45,16 +45,11 @@ const Whale = () => {
           markers: true,
         },
       })
-      // .to(group.current.rotation, {
-      //   y: Math.PI * 0.2,
-      //   ease: "none",
-      // })
       .to(
         group.current.position,
         {
-          y: -2,
-          ease: "none",
-          // ease: "ease-linear",
+          y: -0.7,
+          ease: "in-out",
         },
         0
       );
