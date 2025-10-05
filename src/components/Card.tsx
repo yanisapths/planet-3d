@@ -1,10 +1,9 @@
 "use client";
 import * as THREE from "three";
-import { Canvas, useLoader } from "@react-three/fiber";
+import { useLoader } from "@react-three/fiber";
 import {
   Environment,
   MeshTransmissionMaterial,
-  OrbitControls,
   Image,
   Lightformer,
 } from "@react-three/drei";
@@ -16,7 +15,7 @@ import {
   HueSaturation,
   TiltShift2,
 } from "@react-three/postprocessing";
-import { chromaticAberration } from "three/examples/jsm/tsl/display/ChromaticAberrationNode.js";
+
 export const Card = ({ frontUrl, backUrl, ...props }: any) => {
   const frontTexture = useLoader(THREE.TextureLoader, frontUrl as string);
 
