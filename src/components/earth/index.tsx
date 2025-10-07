@@ -76,15 +76,19 @@ export default function Earth() {
   const [color] = useLoader(TextureLoader, ["/assets/earth/earthmap1k.jpg"]);
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 5], fov: 50 }}
-      style={{ width: "100%", height: "100%" }}
-    >
-      <ambientLight intensity={0.1} />
-      <directionalLight intensity={3.5} position={[1, 1, 1]} />
+    <div className="overflow-hidden">
+      <div className="w-screen h-[100vh] bg-black">
+        <Canvas
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <ambientLight intensity={0.1} />
+          <directionalLight intensity={3.5} position={[1, 1, 1]} />
 
-      <EarthGroup texture={color} />
-      <StarsScene />
-    </Canvas>
+          <EarthGroup texture={color} />
+          <StarsScene />
+        </Canvas>
+      </div>
+    </div>
   );
 }
