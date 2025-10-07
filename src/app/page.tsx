@@ -3,7 +3,15 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GridBackground, works } from "@/components/GridBackground";
 
-export default function Home() {
+export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      {" "}
+      <Home />{" "}
+    </Suspense>
+  );
+}
+function Home() {
   const [openWork, setOpenWork] = useState<any>(undefined);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -24,14 +32,14 @@ export default function Home() {
   };
 
   return (
-    <Suspense fallback={null}>
-      <div className="overflow-hidden">
-        <div className="w-screen h-[100vh]">
+    <div className="overflow-hidden">
+      <div className="w-screen h-[100vh]">
+        <Suspense fallback={null}>
           <GridBackground onSelectWork={(work: any) => setOpenWork(work)} />
-        </div>
-        {openWork && <Overlay work={openWork} onClose={handleClose} />}
+        </Suspense>
       </div>
-    </Suspense>
+      {openWork && <Overlay work={openWork} onClose={handleClose} />}
+    </div>
   );
 }
 
