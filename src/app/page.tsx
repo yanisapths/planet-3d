@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GridBackground, works } from "@/components/GridBackground";
 
@@ -24,12 +24,14 @@ export default function Home() {
   };
 
   return (
-    <div className="overflow-hidden">
-      <div className="w-screen h-[100vh]">
-        <GridBackground onSelectWork={(work: any) => setOpenWork(work)} />
+    <Suspense fallback={null}>
+      <div className="overflow-hidden">
+        <div className="w-screen h-[100vh]">
+          <GridBackground onSelectWork={(work: any) => setOpenWork(work)} />
+        </div>
+        {openWork && <Overlay work={openWork} onClose={handleClose} />}
       </div>
-      {openWork && <Overlay work={openWork} onClose={handleClose} />}
-    </div>
+    </Suspense>
   );
 }
 

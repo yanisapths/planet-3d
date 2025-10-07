@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Grid } from "./Grid";
 import { CardCustomImage } from "./3d-card/card-custom-image";
 import { ClearGlass } from "./clear-glass/ClearGlass";
@@ -78,23 +78,25 @@ export const GridBackground = ({
   };
 
   return (
-    <div className="w-screen h-screen bg-[#191919] py-6">
-      <p className="text-[#949597] text-6xl pl-6 pb-6">Archive</p>
-      <Grid.Root gridCol={gridCol} gridRow={gridRow}>
-        {filledWorks.map((work, index) => (
-          <Grid.Item key={work?.id ?? `empty-${index}`}>
-            {work ? (
-              <CardInGrid
-                work={work}
-                onOpenContent={() => handleOpenWork(work)}
-              />
-            ) : (
-              <div className="w-full h-full border border-[#333]" />
-            )}
-          </Grid.Item>
-        ))}
-      </Grid.Root>
-    </div>
+    <Suspense fallback={null}>
+      <div className="w-screen h-screen bg-[#191919] py-6">
+        <p className="text-[#949597] text-6xl pl-6 pb-6">Archive</p>
+        <Grid.Root gridCol={gridCol} gridRow={gridRow}>
+          {filledWorks.map((work, index) => (
+            <Grid.Item key={work?.id ?? `empty-${index}`}>
+              {work ? (
+                <CardInGrid
+                  work={work}
+                  onOpenContent={() => handleOpenWork(work)}
+                />
+              ) : (
+                <div className="w-full h-full border border-[#333]" />
+              )}
+            </Grid.Item>
+          ))}
+        </Grid.Root>
+      </div>
+    </Suspense>
   );
 };
 const CardInGrid = ({ work, onOpenContent }: any) => {
