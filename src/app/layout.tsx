@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Planet",
+  title: "Yanisa P. | Archive",
 };
 
 export default function RootLayout({
