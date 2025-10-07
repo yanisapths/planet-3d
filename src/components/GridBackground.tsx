@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "./Grid";
 import { CardCustomImage } from "./3d-card/card-custom-image";
 import { ClearGlass } from "./clear-glass/ClearGlass";
 import Earth from "./earth";
 import { StarScene } from "./scene/scene";
 import { WhaleScene } from "./whale";
+import { useRouter, useSearchParams } from "next/navigation";
 
-// ✅ Your works array
 export const works = [
   {
     id: 1,
@@ -52,6 +52,9 @@ export const GridBackground = ({
 }: {
   onSelectWork: (work: any) => void;
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const gridCol = 3;
   const gridRow = 3;
   const totalCells = gridCol * gridRow;
@@ -60,6 +63,19 @@ export const GridBackground = ({
     ...works.slice(0, totalCells),
     ...Array(Math.max(0, totalCells - works.length)).fill(null),
   ];
+
+  useEffect(() => {
+    const workKey = searchParams.get("work");
+    if (workKey) {
+      const found = works.find((w) => w.key === workKey);
+      if (found) onSelectWork(found);
+    }
+  }, [searchParams, onSelectWork]);
+
+  const handleOpenWork = (work: any) => {
+    router.push(`?work=${work.id}`, { scroll: false });
+    onSelectWork(work);
+  };
 
   return (
     <div className="w-screen h-screen bg-[#191919] py-6">
@@ -70,7 +86,7 @@ export const GridBackground = ({
             {work ? (
               <CardInGrid
                 work={work}
-                onOpenContent={() => onSelectWork(work)}
+                onOpenContent={() => handleOpenWork(work)}
               />
             ) : (
               <div className="w-full h-full border border-[#333]" />
@@ -81,7 +97,6 @@ export const GridBackground = ({
     </div>
   );
 };
-
 const CardInGrid = ({ work, onOpenContent }: any) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);

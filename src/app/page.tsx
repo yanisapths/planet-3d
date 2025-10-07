@@ -1,18 +1,34 @@
 "use client";
-import React, { useState } from "react";
-import { GridBackground } from "@/components/GridBackground";
+import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { GridBackground, works } from "@/components/GridBackground";
 
 export default function Home() {
-  const [openWork, setOpenWork] = useState<number | undefined>(undefined);
+  const [openWork, setOpenWork] = useState<any>(undefined);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const workKey = searchParams.get("work");
+    if (workKey) {
+      const found = works.find((w) => w.id.toString() === workKey);
+      if (found) setOpenWork(found);
+    } else {
+      setOpenWork(undefined);
+    }
+  }, [searchParams]);
+
+  const handleClose = () => {
+    router.push("/", { scroll: false });
+    setOpenWork(undefined);
+  };
 
   return (
     <div className="overflow-hidden">
       <div className="w-screen h-[100vh]">
         <GridBackground onSelectWork={(work: any) => setOpenWork(work)} />
       </div>
-      {openWork && (
-        <Overlay work={openWork} onClose={() => setOpenWork(undefined)} />
-      )}
+      {openWork && <Overlay work={openWork} onClose={handleClose} />}
     </div>
   );
 }
