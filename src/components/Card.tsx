@@ -15,6 +15,7 @@ import {
   HueSaturation,
   TiltShift2,
 } from "@react-three/postprocessing";
+import { isMobile } from "react-device-detect";
 
 export const Card = ({ frontUrl, backUrl, ...props }: any) => {
   const frontTexture = useLoader(THREE.TextureLoader, frontUrl as string);
@@ -39,61 +40,70 @@ export const Card = ({ frontUrl, backUrl, ...props }: any) => {
       <ambientLight intensity={0} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
 
-      {/* Front */}
       <mesh position={[0, 0, 0.01]}>
         <primitive object={new RoundedPlaneGeometry(2, 3, 0.2)} />
-        <MeshTransmissionMaterial {...config} map={frontTexture}>
-          <Image
-            ref={ref}
-            url={frontUrl}
+        {isMobile ? (
+          <meshPhysicalMaterial
+            map={frontTexture}
             transparent
-            side={THREE.DoubleSide}
-            {...props}
-          ></Image>
-        </MeshTransmissionMaterial>
+            roughness={0.4}
+            metalness={0.2}
+            clearcoat={0.2}
+          />
+        ) : (
+          <MeshTransmissionMaterial {...config} map={frontTexture} />
+        )}
       </mesh>
 
       {/* Back */}
       <mesh rotation={[0, Math.PI, 0]} position={[0, 0, -0.01]}>
         <primitive object={new RoundedPlaneGeometry(2, 3, 0.2)} />
-        <MeshTransmissionMaterial {...config} map={frontTexture}>
-          <Image
-            ref={ref}
-            url={frontUrl}
+
+        {isMobile ? (
+          <meshPhysicalMaterial
+            map={frontTexture}
             transparent
-            side={THREE.DoubleSide}
-            {...props}
-          ></Image>
-        </MeshTransmissionMaterial>
+            roughness={0.4}
+            metalness={0.2}
+            clearcoat={0.2}
+          />
+        ) : (
+          <MeshTransmissionMaterial {...config} map={frontTexture} />
+        )}
       </mesh>
 
-      <Environment resolution={32}>
-        <group rotation={[-Math.PI / 4, -0.3, 1]}>
-          <Lightformer
-            intensity={5}
-            rotation-x={Math.PI / 2}
-            position={[0, 5, -9]}
-            scale={[10, 10, 1]}
-          />
-          <Lightformer
-            intensity={5}
-            rotation-y={Math.PI / 2}
-            position={[-10, 0, -1]}
-            scale={[10, 2, 1]}
-          />
-          <Lightformer
-            intensity={5}
-            rotation-y={-Math.PI / 2}
-            position={[10, 1, 0]}
-            scale={[20, 10, 1]}
-          />
-        </group>
-      </Environment>
-
-      <EffectComposer multisampling={1}>
-        <TiltShift2 blur={0} />
-        <HueSaturation hue={0} saturation={config?.saturation as any} />
-      </EffectComposer>
+      {isMobile ? (
+        <Environment preset="studio" />
+      ) : (
+        <Environment resolution={32}>
+          <group rotation={[-Math.PI / 4, -0.3, 1]}>
+            <Lightformer
+              intensity={5}
+              rotation-x={Math.PI / 2}
+              position={[0, 5, -9]}
+              scale={[10, 10, 1]}
+            />
+            <Lightformer
+              intensity={5}
+              rotation-y={Math.PI / 2}
+              position={[-10, 0, -1]}
+              scale={[10, 2, 1]}
+            />
+            <Lightformer
+              intensity={5}
+              rotation-y={-Math.PI / 2}
+              position={[10, 1, 0]}
+              scale={[20, 10, 1]}
+            />
+          </group>
+        </Environment>
+      )}
+      {!isMobile && (
+        <EffectComposer multisampling={1}>
+          <TiltShift2 blur={0} />
+          <HueSaturation hue={0} saturation={config?.saturation as any} />
+        </EffectComposer>
+      )}
     </group>
   );
 };
