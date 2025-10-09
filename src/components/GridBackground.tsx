@@ -1,80 +1,25 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+
 import { Grid } from "./Grid";
-import { CardCustomImage } from "./3d-card/card-custom-image";
-import { ClearGlass } from "./clear-glass/ClearGlass";
-import Earth from "./earth";
-import { StarScene } from "./scene/scene";
-import { WhaleScene } from "./whale";
-import { useRouter, useSearchParams } from "next/navigation";
+import { experiments } from "./experiment/experiment";
 
-export const works = [
-  {
-    id: 1,
-    key: "earth",
-    title: "Earth",
-    content: <Earth />,
-    thumbnailImg: "/images/thumbnail/earth.png",
-  },
-  {
-    id: 2,
-    key: "gsap-whale",
-    title: "GSAP scroll with 3D model",
-    content: <WhaleScene />,
-    thumbnailImg: "/images/thumbnail/whale.png",
-  },
-  {
-    id: 3,
-    key: "zoom-space",
-    title: "Infinite zoom Space",
-    content: <StarScene />,
-    thumbnailImg: "/images/thumbnail/zoom-space.png",
-  },
-  {
-    id: 4,
-    key: "card-with-image",
-    title: "3D card with custom image",
-    content: <CardCustomImage />,
-    thumbnailImg: "/images/thumbnail/card-with-image.png",
-  },
-  {
-    id: 5,
-    key: "glass",
-    title: "Clear texture with text",
-    content: <ClearGlass />,
-    thumbnailImg: "/images/thumbnail/clear-glass.png",
-  },
-];
-
-export const GridBackground = ({
-  onSelectWork,
-}: {
-  onSelectWork: (work: any) => void;
-}) => {
+export const GridBackground = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const gridCol = 3;
   const gridRow = 3;
   const totalCells = gridCol * gridRow;
 
   const filledWorks = [
-    ...works.slice(0, totalCells),
-    ...Array(Math.max(0, totalCells - works.length)).fill(null),
+    ...experiments.slice(0, totalCells),
+    ...Array(Math.max(0, totalCells - experiments.length)).fill(null),
   ];
 
-  useEffect(() => {
-    const workKey = searchParams.get("work");
-    if (workKey) {
-      const found = works.find((w) => w.key === workKey);
-      if (found) onSelectWork(found);
-    }
-  }, [searchParams, onSelectWork]);
-
   const handleOpenWork = (work: any) => {
-    router.push(`?work=${work.id}`, { scroll: false });
-    onSelectWork(work);
+    router.push(`/experiments/${work.id}`, { scroll: false });
   };
 
   return (
