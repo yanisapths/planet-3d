@@ -18,14 +18,18 @@ export const GridBackground = () => {
     ...Array(Math.max(0, totalCells - experiments.length)).fill(null),
   ];
 
-  const handleOpenWork = (work: any) => {
+  const handleOpenWork = (work: (typeof experiments)[number]) => {
+    if ("link" in work && work.link) {
+      window.open(work.link, "_blank", "noopener,noreferrer");
+      return;
+    }
     router.push(`/experiments/${work.id}`, { scroll: false });
   };
 
   return (
     <Suspense fallback={null}>
-      <div className="w-screen h-screen bg-[#191919] py-6">
-        <p className="text-[#949597] text-6xl pl-6 pb-6">Archive</p>
+      <div className="w-screen h-screen bg-[#191919] pt-2">
+        <p className="text-[#949597] text-xl pl-6 pb-2">Archive</p>
         <Grid.Root gridCol={gridCol} gridRow={gridRow}>
           {filledWorks.map((work, index) => (
             <Grid.Item key={work?.id ?? `empty-${index}`}>

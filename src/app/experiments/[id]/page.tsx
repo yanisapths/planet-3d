@@ -3,7 +3,7 @@
 import { experiments } from "@/components/experiment/experiment";
 import { NotFound } from "@/components/NotFound";
 import { useRouter } from "next/navigation";
-import { use } from "react";
+import { use, useEffect } from "react";
 
 type ExpByIdProps = {
   params: Promise<{ id: string }>;
@@ -14,11 +14,23 @@ const ExpById = ({ params }: ExpByIdProps) => {
   const experimentId = Number(id);
   const experiment = experiments.find((e) => e.id === experimentId);
   const router = useRouter();
+
+  useEffect(() => {
+    if (experiment && "link" in experiment && experiment.link) {
+      window.location.replace(experiment.link);
+    }
+  }, [experiment]);
+
   const handleClose = () => {
     router.push(`/`);
   };
+
   if (!experiment) {
     return <NotFound />;
+  }
+
+  if ("link" in experiment && experiment.link) {
+    return null;
   }
 
   return (
@@ -31,7 +43,7 @@ const ExpById = ({ params }: ExpByIdProps) => {
           <div className="text-sm font-medium">← BACK TO ALL PROJECTS</div>
         </button>
       </div>
-      {experiment.content}
+      {"content" in experiment ? experiment.content : null}
     </div>
   );
 };

@@ -2,7 +2,6 @@ import { WhaleScene } from "@/components/whale";
 
 import { StarScene } from "@/components/scene/scene";
 import { ClearGlass } from "@/components/clear-glass/ClearGlass";
-import { Card } from "@/components/Card";
 import { CardCustomImage } from "@/components/3d-card/card-custom-image";
 import Earth from "../earth";
 import { HologramBusinessCard } from "../3d-card/hologram-card";
@@ -49,5 +48,12 @@ export const experiments = [
     title: "Hologram business card",
     content: <HologramBusinessCard />,
     thumbnailImg: "/images/thumbnail/hologram-card.png",
+  },
+  {
+    id: 7,
+    key: "ui-tools-hub",
+    title: "UI Tools",
+    link: "https://ui-tools-hub.vercel.app/shape-generator/",
+    thumbnailImg: "/images/thumbnail/ui-tools.png",
   },
 ];
