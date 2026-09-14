@@ -56,4 +56,11 @@ export const experiments = [
     link: "https://ui-tools-hub.vercel.app/shape-generator/",
     thumbnailImg: "/images/thumbnail/ui-tools.png",
   },
+  {
+    id: 8,
+    key: "mystery-chocolate",
+    title: "Mysterious Chocolate Box",
+    link: "https://mystery-chocolate.vercel.app",
+    thumbnailImg: "/images/thumbnail/mystery-chocolate.png",
+  },
 ];

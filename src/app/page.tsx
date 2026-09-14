@@ -12,8 +12,8 @@ export default function HomePage() {
 }
 function Home() {
   return (
-    <div className="overflow-hidden">
-      <div className="w-screen h-[100vh]">
+    <div className="overflow-y-auto md:overflow-hidden">
+      <div className="w-screen min-h-[100vh] md:h-[100vh]">
         <Suspense fallback={null}>
           <GridBackground />
         </Suspense>

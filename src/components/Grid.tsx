@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { CSSProperties, ReactNode } from "react";
 
 interface GridProps {
   gridRow?: number;
@@ -10,12 +10,14 @@ interface GridProps {
 const Grid = ({ children, gridRow = 4, gridCol = 4, gap = 0 }: GridProps) => {
   return (
     <div
-      className="grid w-full h-full"
-      style={{
-        gridTemplateColumns: `repeat(${gridCol}, minmax(0, 1fr))`,
-        gridTemplateRows: `repeat(${gridRow}, minmax(0, 1fr))`,
-        gap,
-      }}
+      className="grid w-full h-auto grid-cols-1 auto-rows-[minmax(16rem,auto)] gap-2 md:h-full md:auto-rows-auto md:[grid-template-columns:repeat(var(--grid-col),minmax(0,1fr))] md:[grid-template-rows:repeat(var(--grid-row),minmax(0,1fr))] md:[gap:var(--grid-gap)]"
+      style={
+        {
+          "--grid-col": gridCol,
+          "--grid-row": gridRow,
+          "--grid-gap": `${gap}px`,
+        } as CSSProperties
+      }
     >
       {children}
     </div>
@@ -32,7 +34,7 @@ interface GridItemProps {
 const GridItem = ({ children, showOutliner = false }: GridItemProps) => {
   return (
     <div
-      className={`rounded-2xl w-full h-full ${
+      className={`rounded-2xl w-full h-full aspect-square md:aspect-auto ${
         showOutliner ? "border border-black/10" : ""
       }`}
     >

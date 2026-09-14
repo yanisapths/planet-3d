@@ -28,22 +28,26 @@ export const GridBackground = () => {
 
   return (
     <Suspense fallback={null}>
-      <div className="w-screen h-screen bg-[#191919] pt-2">
-        <p className="text-[#949597] text-xl pl-6 pb-2">Archive</p>
-        <Grid.Root gridCol={gridCol} gridRow={gridRow}>
-          {filledWorks.map((work, index) => (
-            <Grid.Item key={work?.id ?? `empty-${index}`}>
-              {work ? (
-                <CardInGrid
-                  work={work}
-                  onOpenContent={() => handleOpenWork(work)}
-                />
-              ) : (
-                <div className="w-full h-full border border-[#333]" />
-              )}
-            </Grid.Item>
-          ))}
-        </Grid.Root>
+      <div className="flex flex-col w-screen min-h-screen h-auto md:h-screen bg-[#191919] p-2">
+        <div className="flex-1 min-h-0">
+          <Grid.Root gridCol={gridCol} gridRow={gridRow}>
+            {filledWorks.map((work, index) => (
+              <Grid.Item key={work?.id ?? `empty-${index}`}>
+                {work ? (
+                  <CardInGrid
+                    work={work}
+                    onOpenContent={() => handleOpenWork(work)}
+                  />
+                ) : (
+                  <div className="w-full h-full border border-[#333]" />
+                )}
+              </Grid.Item>
+            ))}
+          </Grid.Root>
+        </div>
+        <footer className="shrink-0 pt-1 text-center text-sm text-white/70">
+          © {new Date().getFullYear()} Yanisa Poongthaisong
+        </footer>
       </div>
     </Suspense>
   );
